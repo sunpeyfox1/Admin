@@ -14,9 +14,9 @@
 <body class="bg-[#070a0f] text-slate-100 font-sans min-h-screen pb-10 select-none flex flex-col justify-between">
 
   <!-- ADMIN HEADER -->
-  <header class="sticky top-0 z-40 bg-[#0f172a]/90 backdrop-blur-md px-4 py-3 border-b border-slate-800/80 flex items-center justify-between shadow-lg">
+  <header class="sticky top-0 z-40 bg-[#0f172a]/95 backdrop-blur-md px-4 py-3 border-b border-slate-800/80 flex items-center justify-between shadow-lg">
     <div class="flex items-center gap-3">
-      <img src="v.png" alt="Logo" class="w-9 h-9 rounded-xl object-cover shadow-md border border-slate-700/50">
+      <img src="t.png" alt="Logo" class="w-9 h-9 rounded-xl object-cover shadow-md border border-slate-700/50">
       <div>
         <h1 class="font-bold text-sm text-white tracking-wide">True Console</h1>
         <span class="text-[9px] text-amber-400 font-bold uppercase tracking-widest bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20">Super Admin</span>
@@ -55,17 +55,17 @@
       </div>
       
       <!-- STATUS TABS -->
-      <div class="flex gap-2 text-xs p-1 bg-slate-950/80 border border-slate-800/80 rounded-xl">
+      <div class="flex gap-2 text-xs p-1.5 bg-slate-950/90 border border-slate-800/80 rounded-xl">
         <button onclick="filterStatus('Pending')" id="tab-Pending" class="flex-1 py-1.5 rounded-lg border border-amber-500/30 bg-amber-500/10 text-amber-400 font-bold text-center transition">Pending</button>
-        <button onclick="filterStatus('Approved')" id="tab-Approved" class="flex-1 py-1.5 rounded-lg border border-transparent text-slate-400 font-medium text-center transition">Approved</button>
-        <button onclick="filterStatus('Rejected')" id="tab-Rejected" class="flex-1 py-1.5 rounded-lg border border-transparent text-slate-400 font-medium text-center transition">Rejected</button>
+        <button onclick="filterStatus('Approved')" id="tab-Approved" class="flex-1 py-1.5 rounded-lg border border-transparent bg-slate-900/50 text-slate-400 font-medium text-center transition hover:bg-slate-800">Approved</button>
+        <button onclick="filterStatus('Rejected')" id="tab-Rejected" class="flex-1 py-1.5 rounded-lg border border-transparent bg-slate-900/50 text-slate-400 font-medium text-center transition hover:bg-slate-800">Rejected</button>
       </div>
     </div>
 
     <!-- QUEUE TITLE -->
     <div class="flex items-center justify-between pt-1">
       <h2 id="queue-title" class="text-xs font-bold text-slate-300 uppercase tracking-wider">Pending Applications</h2>
-      <span class="text-[10px] text-slate-500">Realtime Firestore</span>
+      <span class="text-[10px] text-slate-500 font-medium">Realtime Firestore</span>
     </div>
 
     <!-- APP REVIEW CARD LIST -->
@@ -141,13 +141,13 @@
       ['Pending', 'Approved', 'Rejected'].forEach(s => {
         const btn = document.getElementById(`tab-${s}`);
         if(s === status) {
-          btn.className = `flex-1 py-1.5 rounded-lg border font-bold text-center transition ${
-            s === 'Approved' ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400' :
-            s === 'Rejected' ? 'border-red-500/30 bg-red-500/10 text-red-400' :
-            'border-amber-500/30 bg-amber-500/10 text-amber-400'
+          btn.className = `flex-1 py-1.5 rounded-lg border font-bold text-center transition shadow-sm ${
+            s === 'Approved' ? 'border-emerald-500/40 bg-emerald-500/15 text-emerald-400' :
+            s === 'Rejected' ? 'border-red-500/40 bg-red-500/15 text-red-400' :
+            'border-amber-500/40 bg-amber-500/15 text-amber-400'
           }`;
         } else {
-          btn.className = 'flex-1 py-1.5 rounded-lg border border-transparent text-slate-400 font-medium text-center transition';
+          btn.className = 'flex-1 py-1.5 rounded-lg border border-transparent bg-slate-900/50 text-slate-400 font-medium text-center transition hover:bg-slate-800';
         }
       });
       document.getElementById('queue-title').innerText = `${status} Applications`;
@@ -172,18 +172,18 @@
       }
 
       container.innerHTML = filtered.map(item => `
-        <div class="glass-card border border-slate-800 rounded-2xl p-4 space-y-3.5 shadow-xl relative overflow-hidden">
+        <div class="glass-card border border-slate-800/90 rounded-2xl p-4 space-y-3.5 shadow-xl relative overflow-hidden">
           
           <!-- TOP APPS INFO -->
           <div class="flex items-start justify-between">
             <div class="flex items-center gap-3">
-              <img src="${item.iconUrl || 'v.png'}" alt="Icon" class="w-12 h-12 bg-slate-950 border border-slate-800 rounded-xl object-cover shadow">
+              <img src="${item.iconUrl || 't.png'}" alt="Icon" class="w-12 h-12 bg-slate-950 border border-slate-800 rounded-xl object-cover shadow">
               <div>
                 <h3 class="font-bold text-sm text-white flex items-center gap-2">
                   ${item.appName || 'Unknown App'}
                 </h3>
                 <p class="text-[11px] text-slate-400 font-mono mt-0.5">${item.packageName || 'com.example.app'}</p>
-                <div class="mt-1 flex items-center gap-1.5">
+                <div class="mt-1.5 flex items-center gap-1.5">
                   <span class="px-2 py-0.5 text-[9px] rounded-md font-semibold ${
                     item.status === 'Approved' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' :
                     item.status === 'Rejected' ? 'bg-red-500/10 text-red-400 border border-red-500/30' :
