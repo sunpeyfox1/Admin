@@ -46,6 +46,16 @@
         <h3 id="stat-rejected" class="text-lg font-extrabold text-red-400 mt-0.5">0</h3>
       </div>
     </div>
+     <!-- TOTAL USERS CARD & LIST -->
+<div class="glass-card p-4 rounded-2xl border border-slate-800 space-y-3">
+  <div class="flex justify-between items-center border-b border-slate-800/80 pb-2">
+    <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider">Registered Users</h3>
+    <span id="stat-total-users" class="text-xs font-bold bg-indigo-500/10 text-indigo-400 px-2 py-0.5 rounded-full border border-indigo-500/20">0 Users</span>
+  </div>
+  <div id="users-list" class="space-y-2 max-h-48 overflow-y-auto pr-1">
+    <p class="text-xs text-slate-500 text-center py-2">Loading users...</p>
+  </div>
+</div>
 
     <!-- SEARCH & FILTER BAR -->
     <div class="space-y-2.5">
@@ -247,6 +257,42 @@
         }
       }
     };
+    // Admin Panel - Fetch Users from Firebase Realtime Database
+const usersRef = firebase.database().ref('users');
+usersRef.on('value', (snapshot) => {
+  const data = snapshot.val();
+  const container = document.getElementById('users-list');
+  const totalUsersText = document.getElementById('stat-total-users');
+  
+  if (container) {
+    container.innerHTML = '';
+    if (data) {
+      const userKeys = Object.keys(data);
+      if (totalUsersText) totalUsersText.innerText = `${userKeys.length} Users`;
+
+      userKeys.forEach((key) => {
+        const u = data[key];
+        container.innerHTML += `
+          <div class="flex items-center justify-between p-2 rounded-xl bg-slate-900/50 border border-slate-800/50">
+            <div class="flex items-center gap-2.5">
+              <img src="${u.photo || 'https://via.placeholder.com/32'}" class="w-8 h-8 rounded-full object-cover border border-slate-700">
+              <div>
+                <p class="font-bold text-xs text-slate-200">${u.name || 'User'}</p>
+                <p class="text-[10px] text-slate-400">${u.email || ''}</p>
+              </div>
+            </div>
+            <span class="text-[9px] text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">Active</span>
+          </div>
+        `;
+      });
+    } else {
+      if (totalUsersText) totalUsersText.innerText = '0 Users';
+      container.innerHTML = '<p class="text-xs text-slate-500 text-center py-2">No users registered yet.</p>';
+    }
+  }
+});
+
   </script>
+  
 </body>
 </html>
